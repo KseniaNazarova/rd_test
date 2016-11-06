@@ -1,0 +1,1 @@
+INSERT INTO person_skills(country, city, skill, name, date) VALUES ('Russia', 'Spb', 'JavaSE', 'Dmitrii', parsedatetime('01-2016', 'mm-yyyy'));

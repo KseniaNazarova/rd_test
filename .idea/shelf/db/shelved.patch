@@ -1,0 +1,176 @@
+Index: web/src/main/java/com/epam/lab/web/HelloController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/src/main/java/com/epam/lab/web/HelloController.java	(revision 6181d6377b26f3e6579902c898048fb23b498546)
++++ web/src/main/java/com/epam/lab/web/HelloController.java	(revision )
+@@ -5,6 +5,11 @@
+ import org.springframework.web.bind.annotation.RequestMethod;
+ import org.springframework.web.bind.annotation.RequestParam;
+ 
++import java.sql.Connection;
++import java.sql.DriverManager;
++import java.sql.SQLException;
++import java.sql.Statement;
++
+ /** Пример взят с
+  * https://hellokoding.com/spring-mvc-4-hello-world-example-with-xml-configuration-maven-and-thymeleaf/
+  */
+\ No newline at end of file
+Index: web/src/main/java/com/epam/lab/web/DBTable.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/src/main/java/com/epam/lab/web/DBTable.java	(revision )
++++ web/src/main/java/com/epam/lab/web/DBTable.java	(revision )
+@@ -0,0 +1,52 @@
++package com.epam.lab.web;
++
++import java.sql.Connection;
++import java.sql.DriverManager;
++import java.sql.SQLException;
++import java.sql.Statement;
++
++
++
++public class DBTable {
++
++    public static void main(String[] args) {
++        try {
++            Connection conn = getConnection();
++            Statement st = conn.createStatement();
++
++            String createTable = "create table skills_plan(" +
++                    "Country varchar(20)," +
++                    "City varchar(20)," +
++                    "Skill varchar(20)," +
++                    "Name varchar(40)," +
++                    "Date date)";
++
++            st.execute(createTable);
++
++
++
++
++
++        } catch (ClassNotFoundException e) {
++            e.printStackTrace();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        }
++    }
++
++    private static Connection getConnection() throws ClassNotFoundException, SQLException {
++        Class.forName("org.h2.Driver");
++        return DriverManager.getConnection("jdbc:h2:~/test", "user", "pass");
++    }
++
++    public static void insert(Person person){
++        try {
++            Connection conn = getConnection();
++            Statement st =
++        } catch (ClassNotFoundException e) {
++            e.printStackTrace();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        }
++    }
++}
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pom.xml	(revision 6181d6377b26f3e6579902c898048fb23b498546)
++++ pom.xml	(revision )
+@@ -21,6 +21,8 @@
+         <module>services</module>
+     </modules>
+ 
++    <packaging>pom</packaging>
++
+     <dependencyManagement>
+         <dependencies>
+             <!-- Jetty сервер, только возможно, его не нужно добавялть - так он будет embedded -->
+\ No newline at end of file
+Index: web/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/pom.xml	(revision 6181d6377b26f3e6579902c898048fb23b498546)
++++ web/pom.xml	(revision )
+@@ -63,6 +63,12 @@
+             <version>${thymeleaf.version}</version>
+         </dependency>
+ 
++        <dependency>
++            <groupId>com.h2database</groupId>
++            <artifactId>h2</artifactId>
++            <version>1.4.193</version>
++        </dependency>
++
+     </dependencies>
+ 
+ </project>
+\ No newline at end of file
+Index: web/src/main/java/com/epam/lab/web/Person.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/src/main/java/com/epam/lab/web/Person.java	(revision )
++++ web/src/main/java/com/epam/lab/web/Person.java	(revision )
+@@ -0,0 +1,50 @@
++package com.epam.lab.web;
++
++public class Person {
++
++    private String country;
++    private String city;
++    private String skill;
++    private String name;
++    private String date;
++
++    public String getCountry() {
++        return country;
++    }
++
++    public void setCountry(String country) {
++        this.country = country;
++    }
++
++    public String getCity() {
++        return city;
++    }
++
++    public void setCity(String city) {
++        this.city = city;
++    }
++
++    public String getSkill() {
++        return skill;
++    }
++
++    public void setSkill(String skill) {
++        this.skill = skill;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++    public String getDate() {
++        return date;
++    }
++
++    public void setDate(String date) {
++        this.date = date;
++    }
++}
